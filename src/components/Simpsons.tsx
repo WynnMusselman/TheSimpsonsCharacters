@@ -37,8 +37,24 @@ export default function Simpsons(){
                     characters.map((character: any) =>
                         <div key = {character.id}>
                             <h2>{character.name}</h2>
-                            <img src = {`https://cdn.thesimpsonsapi.com/500/${character.portrait_path}`} alt = {character.name} />
-                            <p>Job: {character.occupation}, Age: {character.age}, Status: {character.status}</p>
+                            <img src = {`https://cdn.thesimpsonsapi.com/500${character.portrait_path}`} alt = {character.name} />
+                            {character.occupation !== "" ? <p>Job: {character.occupation}</p> : <p>Job: Unknown</p>}
+                            {character.age !== null ? <p>Age: {character.age}</p> : <p>Age: Unknown</p>}
+                            {character.status !== "" ? <p>Status: {character.status}</p> : <p>Status: Unknown</p>}
+
+                            {character.phrases.length > 0 && (
+                                <>
+                                    <h3>Phrases: </h3>
+                                    <ul>
+
+                                        {character.phrases.map((phrase: string, index: number) => (
+                                            <li key = {index}>{phrase}</li>
+                                            )
+                                        )}
+                                    </ul>
+                                </>
+                            )}
+
                         </div>
                     )
                 }
