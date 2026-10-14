@@ -1,0 +1,46 @@
+import {useEffect, useState} from "react";
+
+export default function Simpsons(){
+    // each page has 20 characters, set by original API
+    const [pageNum, setPageNum] = useState(1);
+    const [characters, setCharacters] = useState([]);
+
+    useEffect(() => {
+        async function getCharacters(){
+            const res = await fetch(
+                `https://thesimpsonsapi.com/api/characters?page=${pageNum}`
+            );
+            const jsonRes = await res.json();
+            setCharacters(jsonRes);
+        }
+
+       getCharacters().catch((e) => console.error(e));
+    }, [pageNum]);
+
+    return (
+        <>
+            <h1>THE SIMPSONS CHARACTERS</h1>
+            <input
+                type = "number"
+                placeholder = "Enter a page number"
+                value = {pageNum}
+                min = {1}
+                max = {60}
+                onChange = {(e) => setPageNum(Number(e.target.value))}
+            />
+
+            <p>Current Page: {pageNum}</p>
+            <div>
+                {
+                    characters.map((character: any) =>
+                        <div key = {character.id}>
+                            <h2>{character.name}</h2>
+                            <img src = {`https://cdn.thesimpsonsapi.com/500/${character.portrait_path}`} alt = {character.name} />
+                            <p>Job: {character.occupation}, Age: {character.age}, Status: {character.status}</p>
+                        </div>
+                    )
+                }
+            </div>
+        </>
+    )
+}
