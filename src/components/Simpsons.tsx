@@ -11,7 +11,9 @@ export default function Simpsons(){
                 `https://thesimpsonsapi.com/api/characters?page=${pageNum}`
             );
             const jsonRes = await res.json();
-            setCharacters(jsonRes);
+
+            // results is the array, so the json is just storing that instead of everything
+            setCharacters(jsonRes.results);
         }
 
        getCharacters().catch((e) => console.error(e));
